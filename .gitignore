@@ -1,0 +1,5 @@
+arabic_sentiment_model/
+*.csv
+*.json
+*.h5
+*.config
