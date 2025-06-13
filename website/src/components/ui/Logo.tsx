@@ -1,6 +1,5 @@
 // Logo component for TIBYAN platform
 import React from 'react';
-import { MessageCircle } from 'lucide-react';
 
 interface LogoProps {
   size?: 'small' | 'medium' | 'large';
@@ -9,28 +8,24 @@ interface LogoProps {
 }
 
 export const TibyanLogo: React.FC<LogoProps> = ({ 
-  size = 'medium', 
+  size = 'large', 
   variant = 'full',
   className = '' 
 }) => {
   const sizeClasses = {
-    small: 'h-6 w-6',
-    medium: 'h-8 w-8', 
-    large: 'h-12 w-12'
-  };
-
-  const iconSizes = {
-    small: 'h-4 w-4',
-    medium: 'h-5 w-5',
-    large: 'h-7 w-7'
+    small: 'h-8 w-8',
+    medium: 'h-12 w-12', 
+    large: 'h-16 w-16'
   };
 
   if (variant === 'icon') {
     return (
-      <div className={`bg-green-600 rounded-full flex items-center justify-center ${sizeClasses[size]} ${className}`}>
-        {/* Replace MessageCircle with your logo image */}
-        {/* <img src="/logo-icon.png" alt="TIBYAN" className={iconSizes[size]} /> */}
-        <MessageCircle className={`${iconSizes[size]} text-white`} />
+      <div className={`${sizeClasses[size]} ${className}`}>
+        <img 
+          src="/tibyan-logo.png" 
+          alt="TIBYAN" 
+          className={`${sizeClasses[size]} object-contain`} 
+        />
       </div>
     );
   }
@@ -50,12 +45,12 @@ export const TibyanLogo: React.FC<LogoProps> = ({
   return (
     <div className={`flex items-center space-x-3 space-x-reverse ${className}`}>
       {/* Logo Icon */}
-      <div className={`bg-green-600 rounded-full flex items-center justify-center ${sizeClasses[size]}`}>
-        {/* Option 1: Use your image logo */}
-        {/* <img src="/logo-icon.png" alt="TIBYAN" className={iconSizes[size]} /> */}
-        
-        {/* Option 2: Keep the current icon */}
-        <MessageCircle className={`${iconSizes[size]} text-white`} />
+      <div className={sizeClasses[size]}>
+        <img 
+          src="/tibyan-logo.png" 
+          alt="TIBYAN" 
+          className={`${sizeClasses[size]} object-contain`} 
+        />
       </div>
       
       {/* Logo Text */}
@@ -68,5 +63,3 @@ export const TibyanLogo: React.FC<LogoProps> = ({
     </div>
   );
 };
-
-export default TibyanLogo;

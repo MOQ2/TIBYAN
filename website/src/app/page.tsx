@@ -8,7 +8,6 @@ import { Loader2 } from 'lucide-react';
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
-
   useEffect(() => {
     if (status === 'loading') return; // Still loading
 
@@ -16,8 +15,8 @@ export default function Home() {
       // User is authenticated, redirect to dashboard
       router.replace('/dashboard');
     } else {
-      // User is not authenticated, redirect to login
-      router.replace('/auth/signin');
+      // User is not authenticated, redirect to landing page
+      router.replace('/landing');
     }
   }, [session, status, router]);
 

@@ -4,9 +4,11 @@ export interface User {
   _id: string;
   email: string;
   name: string;
+  password?: string; // Optional for responses (excluded for security)
   role: UserRole;
   avatar?: string;
   department?: string;
+  company?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
