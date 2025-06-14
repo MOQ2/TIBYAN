@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Amiri } from "next/font/google";
 import QueryProvider from '@/components/providers/QueryProvider';
 import AuthProvider from '@/components/providers/AuthProvider';
 import "./globals.css";
@@ -8,13 +7,6 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
-});
-
-const amiri = Amiri({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  variable: "--font-amiri",
-  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -37,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" className="h-full">
-      <body className={`${inter.variable} ${amiri.variable} font-amiri antialiased h-full bg-gray-50`}>
+      <body className={`${inter.variable} font-sans antialiased h-full bg-gray-50`}>
         <QueryProvider>
           <AuthProvider>
             <div className="min-h-full">

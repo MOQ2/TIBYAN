@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-config';
 import connectDB from '@/lib/mongodb';
 import { ConversationModel } from '@/lib/models/Conversation';
-import { ConversationMessage } from '@/types';
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,7 +42,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Get conversations
-    const conversations = await ConversationModel.find(filter);    // Calculate analytics with REAL data only
+    const conversations = await ConversationModel.find(filter);
+
+    // Calculate analytics
     const analytics = {
       totalConversations: conversations.length,
       platforms: {
@@ -73,53 +74,18 @@ export async function GET(request: NextRequest) {
         messages: number;
         sentiment: { positive: number; negative: number; neutral: number };
       }>
-    };    const responseTimes: number[] = [];
+    };
 
-    // Calculate REAL sentiment totals and message counts from individual messages
+    // Calculate sentiment totals and message counts
     conversations.forEach(conversation => {
       analytics.totalMessages += conversation.messages.length;
-        // Calculate sentiment from INDIVIDUAL MESSAGES (real data)
-      conversation.messages.forEach((message: ConversationMessage) => {
-        if (message.sentiment?.predictedClass) {
-          switch (message.sentiment.predictedClass) {
-            case 'positive':
-              analytics.sentiment.positive++;
-              break;
-            case 'negative':
-              analytics.sentiment.negative++;
-              break;
-            case 'neutral':
-              analytics.sentiment.neutral++;
-              break;
-          }
-        }
-      });
-
-      // Calculate REAL response times between customer and agent messages
-      const customerMessages = conversation.messages.filter((m: ConversationMessage) => m.sender === 'customer');
-      const agentMessages = conversation.messages.filter((m: ConversationMessage) => m.sender === 'agent');
       
-      customerMessages.forEach((customerMsg: ConversationMessage) => {
-        // Find the next agent response after this customer message
-        const nextAgentResponse = agentMessages.find((agentMsg: ConversationMessage) => 
-          agentMsg.timestamp > customerMsg.timestamp
-        );
-        
-        if (nextAgentResponse) {
-          const responseTime = nextAgentResponse.timestamp.getTime() - customerMsg.timestamp.getTime();
-          responseTimes.push(responseTime / (1000 * 60)); // Convert to minutes
-        }
-      });
+      if (conversation.overallSentiment) {
+        analytics.sentiment.positive += conversation.overallSentiment.positive || 0;
+        analytics.sentiment.negative += conversation.overallSentiment.negative || 0;
+        analytics.sentiment.neutral += conversation.overallSentiment.neutral || 0;
+      }
     });
-
-    // Calculate REAL response time statistics
-    if (responseTimes.length > 0) {
-      analytics.responseTimeStats.average = Math.round(
-        responseTimes.reduce((sum, time) => sum + time, 0) / responseTimes.length
-      );
-      analytics.responseTimeStats.fastest = Math.round(Math.min(...responseTimes));
-      analytics.responseTimeStats.slowest = Math.round(Math.max(...responseTimes));
-    }
 
     // Calculate average messages per conversation
     if (conversations.length > 0) {
@@ -138,29 +104,19 @@ export async function GET(request: NextRequest) {
       );
 
       const dayMessages = dayConversations.reduce((total, c) => total + c.messages.length, 0);
-        const daySentiment = {
+      
+      const daySentiment = {
         positive: 0,
         negative: 0,
         neutral: 0
       };
 
-      // Calculate REAL daily sentiment from individual messages
       dayConversations.forEach(conversation => {
-        conversation.messages.forEach((message: ConversationMessage) => {
-          if (message.sentiment?.predictedClass) {
-            switch (message.sentiment.predictedClass) {
-              case 'positive':
-                daySentiment.positive++;
-                break;
-              case 'negative':
-                daySentiment.negative++;
-                break;
-              case 'neutral':
-                daySentiment.neutral++;
-                break;
-            }
-          }
-        });
+        if (conversation.overallSentiment) {
+          daySentiment.positive += conversation.overallSentiment.positive || 0;
+          daySentiment.negative += conversation.overallSentiment.negative || 0;
+          daySentiment.neutral += conversation.overallSentiment.neutral || 0;
+        }
       });
 
       analytics.dailyStats.unshift({

@@ -205,34 +205,31 @@ export async function POST(request: NextRequest) {
               } else {
                 sentiment = { sentiment: 'neutral' as const, confidence: 0.6 };
               }
-            }            analyzedMessages.push({
+            }
+              analyzedMessages.push({
               id: message.id,
               timestamp: new Date(message.timestamp),
               sender: message.sender,
               content: message.content,
               type: message.type || 'text',
               language: message.language || 'ar',
-              sentiment: {
-                predictedClass: sentiment.sentiment,
-                confidence: sentiment.confidence
-              }
+              sentiment: sentiment.sentiment,
+              confidence: sentiment.confidence
             });
             
             // Count sentiments
             if (sentiment.sentiment === 'positive') totalPositive++;
             else if (sentiment.sentiment === 'negative') totalNegative++;
-            else totalNeutral++;          } else {
-            analyzedMessages.push({
+            else totalNeutral++;
+          } else {            analyzedMessages.push({
               id: message.id,
               timestamp: new Date(message.timestamp),
               sender: message.sender,
               content: message.content,
               type: message.type || 'text',
               language: message.language || 'ar',
-              sentiment: {
-                predictedClass: 'neutral' as const,
-                confidence: 0.5
-              }
+              sentiment: 'neutral' as const,
+              confidence: 0.5
             });
             totalNeutral++;
           }

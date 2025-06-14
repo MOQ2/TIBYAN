@@ -60,16 +60,9 @@ export async function GET(request: NextRequest) {
       let positiveCount = 0;
       let negativeCount = 0;
       let neutralCount = 0;
-        messages.forEach((msg: any, index: number) => {
-        // Handle different sentiment formats
-        let sentiment = 'neutral';
-        if (msg.sentiment) {
-          if (typeof msg.sentiment === 'string') {
-            sentiment = msg.sentiment;
-          } else if (msg.sentiment.predictedClass) {
-            sentiment = msg.sentiment.predictedClass;
-          }
-        }
+      
+      messages.forEach((msg: any, index: number) => {
+        const sentiment = msg.sentiment || msg.sentimentClass || 'neutral';
         console.log(`Message ${index + 1}: sentiment = "${sentiment}"`);
         
         if (sentiment === 'positive') {
@@ -96,7 +89,8 @@ export async function GET(request: NextRequest) {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const convData = conv as any;
-        return {
+      
+      return {
         _id: convData._id.toString(),
         conversationId: convData.conversationId,
         customerId: convData.customerPhone || convData.conversationId,
@@ -107,31 +101,18 @@ export async function GET(request: NextRequest) {
         startTime: convData.startTime,
         endTime: convData.endTime,
         status: convData.status,
-        tags: convData.tags,
-        dealtWith: convData.dealtWith || false,
-        dealtWithAt: convData.dealtWithAt,
-        dealtWithBy: convData.dealtWithBy,// eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tags: convData.tags,        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         messages: messages.map((msg: any) => {
-          // Handle different sentiment formats
-          let sentiment;
-          let confidence = 0.5;
-          
-          if (msg.sentiment) {
-            if (typeof msg.sentiment === 'string') {
-              sentiment = msg.sentiment;
-              confidence = msg.confidence || 0.5;
-            } else if (msg.sentiment.predictedClass) {
-              sentiment = msg.sentiment.predictedClass;
-              confidence = msg.sentiment.confidence || 0.5;
-            }
-          }
+          const sentiment = msg.sentiment || msg.sentimentClass;
+          const confidence = msg.confidence || 0.5;
           
           return {
             id: msg.id,
             timestamp: msg.timestamp,
             sender: msg.sender,
             content: msg.content,
-            sentiment: sentiment ? { predictedClass: sentiment, confidence } : undefined,
+            sentiment: sentiment ? sentiment : undefined,
+            confidence: confidence,
             language: msg.language
           };
         }),

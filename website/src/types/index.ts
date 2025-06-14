@@ -4,11 +4,9 @@ export interface User {
   _id: string;
   email: string;
   name: string;
-  password?: string; // Optional for responses (excluded for security)
   role: UserRole;
   avatar?: string;
   department?: string;
-  company?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -56,11 +54,8 @@ export interface Conversation {
   overallSentiment: SentimentSummary;
   startTime: Date;
   endTime?: Date;
-  status: 'active' | 'resolved' | 'archived' | 'escalated';
+  status: 'active' | 'resolved' | 'archived';
   tags: string[];
-  dealtWith?: boolean;
-  dealtWithAt?: Date;
-  dealtWithBy?: string;
 }
 
 export interface ConversationMessage {

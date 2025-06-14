@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+*.md 
+# nuxt
+.nuxt
+dist
+# storybook
+.storybook-out
+# parcel
+.parcel-cache
+# cache
+.cache
+# temporary files
+tmp/
+temp/
+# logs      

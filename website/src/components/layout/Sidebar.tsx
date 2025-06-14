@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { 
   LayoutDashboard, 
   Upload, 
@@ -14,7 +13,8 @@ import {
   Users, 
   LogOut,
   Menu,
-  X
+  X,
+  MessageCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { getUserRoleDisplayName } from '@/lib/utils';
@@ -39,9 +39,10 @@ export default function Sidebar({ children }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+
   const handleSignOut = async () => {
     await signOut({ redirect: false });
-    router.push('/landing');
+    router.push('/auth/signin');
   };
 
   const userNavigation = [...navigation];
@@ -59,9 +60,10 @@ export default function Sidebar({ children }: SidebarProps) {
           onClick={() => setSidebarOpen(true)}
         >
           <span className="sr-only">فتح القائمة الجانبية</span>
-          <Menu className="h-12 w-12" aria-hidden="true" />
-        </button>        
-        <div className="flex-1 text-sm font-semibold leading-6 text-gray-900 font-amiri">
+          <Menu className="h-6 w-6" aria-hidden="true" />
+        </button>
+        <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
+          تِبيان - TIBYAN
         </div>
       </div>
 
@@ -70,14 +72,12 @@ export default function Sidebar({ children }: SidebarProps) {
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 border-r border-gray-200">
           <div className="flex h-16 shrink-0 items-center">
             <div className="flex items-center space-x-3 space-x-reverse">
-              <div className="h-16 w-16 flex items-center justify-center">
-                <Image
-                  src="/tibyan-logo.png"
-                  alt="Tibyan Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain"
-                />
+              <div className="h-8 w-8 bg-green-600 rounded-full flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">تِبيان</h1>
+                <p className="text-xs text-gray-500">TIBYAN</p>
               </div>
             </div>
           </div>
@@ -157,14 +157,8 @@ export default function Sidebar({ children }: SidebarProps) {
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 <div className="flex h-16 shrink-0 items-center">
                   <div className="flex items-center space-x-3 space-x-reverse">
-                    <div className="h-8 w-8 flex items-center justify-center">
-                      <Image
-                        src="/tibyan-logo.png"
-                        alt="Tibyan Logo"
-                        width={32}
-                        height={32}
-                        className="object-contain"
-                      />
+                    <div className="h-8 w-8 bg-green-600 rounded-full flex items-center justify-center">
+                      <MessageCircle className="h-5 w-5 text-white" />
                     </div>
                     <div>
                       <h1 className="text-xl font-bold text-gray-900">تِبيان</h1>
