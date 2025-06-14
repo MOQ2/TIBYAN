@@ -1,6 +1,6 @@
 # تِبيان - TIBYAN | Arabic Sentiment Analysis Platform v2.0
 
-![TIBYAN Logo](public/tibyan-logo.png)
+![TIBYAN](https://github.com/user-attachments/assets/8699191b-4bb9-4569-a577-9db007b1ec37)
 
 > **Latest Release**: v2.0 - Complete overhaul with modern design, real data integration, and enhanced user experience
 
