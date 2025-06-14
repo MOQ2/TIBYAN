@@ -514,8 +514,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support & Documentation
 
 ### Getting Help
-- **📧 Email**: support@tibyan.com
-- **📖 Documentation**: [Project Wiki](https://github.com/your-username/tibyan/wiki)
+- **📧 Email**: mohammedoqady@gmail.com
+- **📖 Documentation**: [Project Wiki]()
 - **🐛 Bug Reports**: [GitHub Issues](https://github.com/your-username/tibyan/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/your-username/tibyan/discussions)
 
@@ -567,7 +567,7 @@ A: While optimized for Arabic, TIBYAN can be adapted for other languages by upda
 If you encounter issues not covered here:
 1. Check the [GitHub Issues](https://github.com/your-username/tibyan/issues)
 2. Review the API integration documentation
-3. Contact support at support@tibyan.com
+
 
 ## 🏆 Acknowledgments
 
@@ -623,8 +623,8 @@ If you encounter issues not covered here:
 - 🧪 كتابة اختبارات إضافية
 
 ### التواصل باللغة العربية
-- البريد الإلكتروني: support@tibyan.com
-- الوثائق: [ويكي المشروع](https://github.com/your-username/tibyan/wiki)
+- البريد الإلكتروني: mohammedoqady@gmail.com
+- الوثائق: [ويكي المشروع]()
 - المناقشات: [GitHub Discussions](https://github.com/your-username/tibyan/discussions)
 
 ## 🙏 شكر خاص
